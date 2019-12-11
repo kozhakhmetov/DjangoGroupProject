@@ -1,0 +1,1 @@
+ALLOWED_EXTS = ['.jpg', '.png', '.docx']
