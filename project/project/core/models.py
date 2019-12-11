@@ -1,12 +1,11 @@
 from django.db import models
 from users.models import MainUser
-
-# class PostManager(models.Manager): # get posts with likes and comments
-#     pass
-#
-#
-# class FullPost(models.Model): # get request for Post
-#     pass
+from core.managers import (PostManager,
+                           CommentManager,
+                           PostLikeManager,
+                           SubscriptionManager,
+                           CommentLikeManager,
+                           PostSavedManager)
 
 class Post(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
@@ -14,7 +13,7 @@ class Post(models.Model):
     views = models.BigIntegerField(default=0)
     category = models.IntegerField(default=0)
     description = models.TextField(null=True)
-    # posts = PostManager()
+    user_posts = PostManager()
 
     class Meta:
         verbose_name = 'Post'
@@ -28,6 +27,8 @@ class Comment(models.Model):
     reply_to = models.IntegerField(null=True)
     created_by = models.IntegerField(null=False)
     created_at = models.DateTimeField(auto_now_add=True)
+    post_comments = CommentManager()
+
     class Meta:
         verbose_name = 'Comment'
         verbose_name_plural = 'Comments'
@@ -38,6 +39,7 @@ class Comment(models.Model):
 class Post_like(models.Model):
     post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name='post_likes')
     created_by = models.IntegerField(null=False)
+    post_likes = PostLikeManager()
     class Meta:
         verbose_name = 'Post_Like'
         verbose_name_plural = 'Post_likes'
@@ -48,7 +50,7 @@ class Post_like(models.Model):
 class Comment_like(models.Model):
     comment = models.ForeignKey(Comment, on_delete=models.CASCADE, related_name='comment_likes')
     created_by = models.IntegerField(null=False)
-
+    comment_likes = CommentLikeManager()
     class Meta:
         verbose_name = 'Comment_like'
         verbose_name_plural = 'Comment_likes'
@@ -58,8 +60,8 @@ class Comment_like(models.Model):
 
 class Post_saved(models.Model):
     post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name='post_saved')
-    created_by = models.IntegerField(null=False)
-
+    created_by = models.ForeignKey(MainUser, on_delete=models.CASCADE, related_name='user_saved')
+    user_saved = PostSavedManager()
     class Meta:
         verbose_name = 'Post_saved'
         verbose_name_plural = 'Post_saved'
@@ -69,7 +71,8 @@ class Post_saved(models.Model):
 
 class Subscription(models.Model):
     userFrom = models.ForeignKey(MainUser, on_delete=models.CASCADE, related_name='user_subscriptions')
-    userToId = models.IntegerField(null=False)
+    userToId = models.ForeignKey(MainUser, on_delete=models.CASCADE)
+    user_subscriptions = SubscriptionManager()
     class Meta:
         verbose_name = 'Subscription'
         verbose_name_plural = 'Subscriptions'
