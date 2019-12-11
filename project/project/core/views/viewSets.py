@@ -40,3 +40,9 @@ class PostViewSet(viewsets.GenericViewSet):
         posts = Post.user_posts.created_by_user(self.request.user)
         serializer = PostSerializer(posts, many=True, context={'request': request})
         return Response(serializer.data)
+
+    @action(methods=['GET'], detail=False)
+    def my_saved(self, request):
+        posts = Post.user_posts.user_saved(self.request.user)
+        serializer = PostSerializer(posts, many=True, context={'request': request})
+        return Response(serializer.data)
