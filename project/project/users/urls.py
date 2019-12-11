@@ -11,9 +11,7 @@ urlpatterns = [
     path('refresh-token/', refresh_jwt_token)
 ]
 
-
 router = DefaultRouter()
 router.register('users', UserViewSet, base_name='users')
-
 
 urlpatterns += router.urls

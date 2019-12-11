@@ -36,10 +36,12 @@ class Comment(models.Model):
     def __str__(self):
         return f'{self.created_by}: {self.post}'
 
-class Post_like(models.Model):
+
+class PostLike(models.Model):
     post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name='post_likes')
     created_by = models.IntegerField(null=False)
     post_likes = PostLikeManager()
+
     class Meta:
         verbose_name = 'Post_Like'
         verbose_name_plural = 'Post_likes'
@@ -47,18 +49,21 @@ class Post_like(models.Model):
     def __str__(self):
         return f'{self.created_by}: {self.post}'
 
-class Comment_like(models.Model):
+
+class CommentLike(models.Model):
     comment = models.ForeignKey(Comment, on_delete=models.CASCADE, related_name='comment_likes')
     created_by = models.IntegerField(null=False)
     comment_likes = CommentLikeManager()
     class Meta:
-        verbose_name = 'Comment_like'
+        verbose_name = 'Comment_' \
+                       'like'
         verbose_name_plural = 'Comment_likes'
 
     def __str__(self):
         return f'{self.created_by}: {self.comment}'
 
-class Post_saved(models.Model):
+
+class PostSaved(models.Model):
     post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name='post_saved')
     created_by = models.ForeignKey(MainUser, on_delete=models.CASCADE, related_name='user_saved')
     user_saved = PostSavedManager()
@@ -69,10 +74,12 @@ class Post_saved(models.Model):
     def __str__(self):
         return f'{self.created_by}: {self.post}'
 
+
 class Subscription(models.Model):
     userFrom = models.ForeignKey(MainUser, on_delete=models.CASCADE, related_name='user_subscriptions')
     userToId = models.ForeignKey(MainUser, on_delete=models.CASCADE)
     user_subscriptions = SubscriptionManager()
+
     class Meta:
         verbose_name = 'Subscription'
         verbose_name_plural = 'Subscriptions'
@@ -83,6 +90,3 @@ class Subscription(models.Model):
 #     prev_date = models.DateField(null=True)
 #     current = models.DateField(null=True)
 #     owner = models.ForeignKey(MainUser, on_delete=models.CASCADE)
-
-
-

@@ -1,6 +1,7 @@
 from rest_framework import serializers
 from users.models import MainUser, Profile
 
+
 class UserSerializer(serializers.ModelSerializer):
     password = serializers.CharField(write_only=True)
 
@@ -12,6 +13,7 @@ class UserSerializer(serializers.ModelSerializer):
         user = MainUser.objects.create_user(**validated_data)
         # Profile.objects.create(data)
         return user
+
 
 class ProfileSerializer(serializers.ModelSerializer):
     class Meta:
