@@ -8,7 +8,7 @@ class PostManager(models.Manager):
         subscriptions = user.user_subscriptions.all()
         allPosts = []
         for s in subscriptions:
-            allPosts += s.post
+            allPosts += s.userTo.posts
         return allPosts
     def user_saved(self, user):
         postSaved = user.user_saved.all()
@@ -36,3 +36,6 @@ class PostSavedManager(models.Manager):
 class SubscriptionManager(models.Manager):
     def get_user_subscriptions(self, user):
         return user.user_subscriptions.all();
+class NotificationManager(models.Manager):
+    def get_notifications(self, user):
+        return user.user_notifications.all();

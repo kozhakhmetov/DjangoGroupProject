@@ -5,7 +5,8 @@ from core.managers import (PostManager,
                            PostLikeManager,
                            SubscriptionManager,
                            CommentLikeManager,
-                           PostSavedManager)
+                           PostSavedManager,
+                           NotificationManager)
 
 class Post(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
@@ -55,8 +56,7 @@ class CommentLike(models.Model):
     created_by = models.IntegerField(null=False)
     comment_likes = CommentLikeManager()
     class Meta:
-        verbose_name = 'Comment_' \
-                       'like'
+        verbose_name = 'Comment_like'
         verbose_name_plural = 'Comment_likes'
 
     def __str__(self):
@@ -77,7 +77,7 @@ class PostSaved(models.Model):
 
 class Subscription(models.Model):
     userFrom = models.ForeignKey(MainUser, on_delete=models.CASCADE, related_name='user_subscriptions')
-    userToId = models.ForeignKey(MainUser, on_delete=models.CASCADE)
+    userTo = models.ForeignKey(MainUser, on_delete=models.CASCADE)
     user_subscriptions = SubscriptionManager()
 
     class Meta:
@@ -90,3 +90,13 @@ class Subscription(models.Model):
 #     prev_date = models.DateField(null=True)
 #     current = models.DateField(null=True)
 #     owner = models.ForeignKey(MainUser, on_delete=models.CASCADE)
+class Notification(models.Model):
+    toUSer = models.ForeignKey(MainUser, on_delete=models.CASCADE, related_name='users_notifications')
+    msg = models.TextField(null=True)
+    notifications = NotificationManager()
+    class Meta:
+        verbose_name = 'Notification'
+        verbose_name_plural = 'Notifications'
+
+    def __str__(self):
+        return f'Dear {self.toUSer.username} you have new message : {self.msg}'
