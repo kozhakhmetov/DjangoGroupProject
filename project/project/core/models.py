@@ -7,6 +7,7 @@ from core.managers import (PostManager,
                            CommentLikeManager,
                            PostSavedManager)
 
+
 class Post(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     created_by = models.ForeignKey(MainUser, on_delete=models.CASCADE, related_name='posts')
@@ -21,6 +22,7 @@ class Post(models.Model):
 
     def __str__(self):
         return f'{self.created_by}: {self.views}'
+
 
 class Comment(models.Model):
     post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name='post_comments')
@@ -43,8 +45,8 @@ class PostLike(models.Model):
     post_likes = PostLikeManager()
 
     class Meta:
-        verbose_name = 'Post_Like'
-        verbose_name_plural = 'Post_likes'
+        verbose_name = 'PostLike'
+        verbose_name_plural = 'PostLikes'
 
     def __str__(self):
         return f'{self.created_by}: {self.post}'
@@ -54,10 +56,10 @@ class CommentLike(models.Model):
     comment = models.ForeignKey(Comment, on_delete=models.CASCADE, related_name='comment_likes')
     created_by = models.IntegerField(null=False)
     comment_likes = CommentLikeManager()
+
     class Meta:
-        verbose_name = 'Comment_' \
-                       'like'
-        verbose_name_plural = 'Comment_likes'
+        verbose_name = 'CommentLike'
+        verbose_name_plural = 'CommentLikes'
 
     def __str__(self):
         return f'{self.created_by}: {self.comment}'
@@ -67,9 +69,10 @@ class PostSaved(models.Model):
     post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name='post_saved')
     created_by = models.ForeignKey(MainUser, on_delete=models.CASCADE, related_name='user_saved')
     user_saved = PostSavedManager()
+
     class Meta:
-        verbose_name = 'Post_saved'
-        verbose_name_plural = 'Post_saved'
+        verbose_name = 'PostSaved'
+        verbose_name_plural = 'PostSaved'
 
     def __str__(self):
         return f'{self.created_by}: {self.post}'
