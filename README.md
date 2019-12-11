@@ -1,4 +1,4 @@
-###prerequesites:
+#prerequesites:
 Python 3.7
 Django 2.2
 djangorestframework 3.10.3
