@@ -3,7 +3,6 @@ import shutil
 from datetime import datetime
 
 
-
 def document_path(instance, filename):
     return f'users/{instance.user_id}/{filename}'
 
