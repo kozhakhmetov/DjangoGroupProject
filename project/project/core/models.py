@@ -59,13 +59,8 @@ class CommentLike(models.Model):
     comment_likes = CommentLikeManager()
 
     class Meta:
-<<<<<<< HEAD
         verbose_name = 'CommentLike'
         verbose_name_plural = 'CommentLikes'
-=======
-        verbose_name = 'Comment_like'
-        verbose_name_plural = 'Comment_likes'
->>>>>>> 527da3346304222c81299cc52e6be3b78cce34f5
 
     def __str__(self):
         return f'{self.created_by}: {self.comment}'
