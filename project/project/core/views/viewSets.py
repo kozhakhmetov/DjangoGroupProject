@@ -27,7 +27,7 @@ class PostViewSet(viewsets.GenericViewSet):
         return PostSerializer
 
     def perform_create(self, serializer):
-        return serializer.save(author=self.request.user)
+        return serializer.save(created_by=self.request.user)
 
     @action(methods=['GET'], detail=False)
     def my_posts(self, request):

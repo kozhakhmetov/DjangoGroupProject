@@ -34,11 +34,11 @@ class MainUser(AbstractUser):
 
 
 class Profile(models.Model):
-    bio = models.TextField(max_length=500)
+    bio = models.TextField(max_length=500,default="")
     avatar = models.FileField(upload_to=upload.document_path, validators=[validators.validate_file_size,
                                                                           validators.validate_extension],
                               null=True, blank=True)
-    user = models.OneToOneField(MainUser, on_delete=models.CASCADE, related_name='profiles')
+    user = models.OneToOneField(MainUser, on_delete=models.CASCADE, related_name='Profile')
 
 
     class Meta:

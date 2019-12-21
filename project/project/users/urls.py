@@ -3,7 +3,7 @@ from rest_framework.routers import DefaultRouter
 from rest_framework_jwt.views import obtain_jwt_token
 from rest_framework_jwt.views import refresh_jwt_token
 
-from users.views import RegisterUserAPIView, UserViewSet
+from users.views import RegisterUserAPIView, UserViewSet, ProfileViewSet
 
 urlpatterns = [
     path('login/', obtain_jwt_token),
@@ -13,5 +13,5 @@ urlpatterns = [
 
 router = DefaultRouter()
 router.register('users', UserViewSet, base_name='users')
-
+router.register('profile', ProfileViewSet)
 urlpatterns += router.urls
