@@ -11,13 +11,14 @@ class UserSerializer(serializers.ModelSerializer):
 
     def create(self, validated_data):
         user = MainUser.objects.create_user(**validated_data)
-        # Profile.objects.create(data)
+        user.save()
         return user
 
 
 class ProfileSerializer(serializers.ModelSerializer):
     class Meta:
         model = Profile
+<<<<<<< HEAD
         fields = ('user')
 #
 #
@@ -36,3 +37,13 @@ class ProfileSerializer(serializers.ModelSerializer):
 #
 #         instance.save()
 #         return instance
+=======
+        fields = '__all__'
+        read_only_fields = ('user', )
+
+    def update(self, instance, validated_data):
+        instance.bio = validated_data.get('bio', instance.bio)
+        instance.avatar = validated_data.get('avatar', instance.avatar)
+        instance.save()
+        return instance
+>>>>>>> 5c1141802c4f7498db472a3ba0cc247cdb43c08c

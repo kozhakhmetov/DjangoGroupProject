@@ -39,28 +39,14 @@ class UserViewSet(viewsets.ReadOnlyModelViewSet):
         serializer = self.get_serializer(request.user)
         return Response(serializer.data)
 
+class ProfileViewSet(mixins.RetrieveModelMixin,
+                     mixins.ListModelMixin,
+                     mixins.DestroyModelMixin,
+                     mixins.UpdateModelMixin,
+                     viewsets.GenericViewSet):
+    queryset = Profile.objects.all()
+    permission_classes = (IsAuthenticated,)
+    serializer_class = ProfileSerializer
 
-# class ProfileViewSet(mixins.RetrieveModelMixin,
-#                      mixins.ListModelMixin,
-#                      mixins.DestroyModelMixin,
-#                      mixins.UpdateModelMixin,
-#                      viewsets.GenericViewSet):
-#     queryset = Profile.objects.all()
-#     permission_classes = (IsAuthenticated,)
-#     serializer_class = ProfileSerializer
-#
-#     def get_serializer_class(self):
-#         if self.action == 'get_queryset':
-#             return ProfileGetSerializer
-#         return ProfileSerializer
-#
-#     def get_queryset(self):
-#         return self.queryset.all()
-#
-#     def update(self, request, *args, **kwargs):
-#         profile = Profile.objects.get(user=request.user)
-#         profile.bio = request.data['bio']
-#         profile.avatar = request.data['avatar']
-#         profile.save()
-#         serializer = ProfileGetSerializer(profile)
-#         return Response(serializer.data)
+    def get_queryset(self):
+        return self.queryset.all()

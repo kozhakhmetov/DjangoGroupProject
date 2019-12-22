@@ -18,4 +18,10 @@ class MainUserAdmin(UserAdmin):
 
 @admin.register(Profile)
 class ProfileAdmin(admin.ModelAdmin):
-    list_display = ('id', 'bio', 'avatar', 'user',)
+    list_display = ('id', 'user', 'bio', 'avatar',)
+    fields = (
+        'user',
+        'bio',
+        'avatar'
+    )
+# admin.site.register(Profile)
