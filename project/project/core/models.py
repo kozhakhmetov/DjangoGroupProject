@@ -14,7 +14,7 @@ class Post(models.Model):
     created_by = models.ForeignKey(MainUser, on_delete=models.CASCADE, related_name='posts')
     views = models.BigIntegerField(default=0)
     category = models.IntegerField(default=0)
-    description = models.TextField(null=True)
+    description = models.TextField(null=True, max_length=)
     user_posts = PostManager()
 
     class Meta:
@@ -94,6 +94,8 @@ class Subscription(models.Model):
 #     prev_date = models.DateField(null=True)
 #     current = models.DateField(null=True)
 #     owner = models.ForeignKey(MainUser, on_delete=models.CASCADE)
+
+
 class Notification(models.Model):
     toUSer = models.ForeignKey(MainUser, on_delete=models.CASCADE, related_name='users_notifications')
     msg = models.TextField(null=True)

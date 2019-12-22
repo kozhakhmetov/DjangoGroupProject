@@ -2,6 +2,7 @@ from users.serializers import UserSerializer
 from core.models import Post
 from rest_framework import serializers
 
+
 class PostSerializer(serializers.ModelSerializer):
     created_by = UserSerializer(read_only=True)
 

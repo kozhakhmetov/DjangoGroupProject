@@ -3,11 +3,11 @@ from users.models import MainUser, Profile
 
 
 class UserSerializer(serializers.ModelSerializer):
-    password = serializers.CharField(write_only=True)
 
     class Meta:
         model = MainUser
         fields = ('id', 'username', 'email', 'first_name', 'last_name', 'password')
+        extra_kwargs = {'password': {'write_only': True}}
 
     def create(self, validated_data):
         user = MainUser.objects.create_user(**validated_data)
@@ -18,7 +18,7 @@ class UserSerializer(serializers.ModelSerializer):
 class ProfileSerializer(serializers.ModelSerializer):
     class Meta:
         model = Profile
-        fields = ('bio')
+        fields = ('user')
 #
 #
 # class ProfileGetSerializer(serializers.Serializer):
