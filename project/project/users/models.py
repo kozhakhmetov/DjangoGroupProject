@@ -34,20 +34,11 @@ class MainUser(AbstractUser):
 
 
 class Profile(models.Model):
-<<<<<<< HEAD
-    bio = models.TextField(max_length=500)
-    avatar = models.FileField(upload_to=upload.document_path,
-                              validators=[validators.validate_file_size, validators.validate_extension],
-                              null=True,
-                              blank=True)
-    user = models.OneToOneField(MainUser, on_delete=models.CASCADE, related_name='profiles')
-=======
     bio = models.TextField(max_length=500,default="")
     avatar = models.FileField(upload_to=upload.document_path, validators=[validators.validate_file_size,
                                                                           validators.validate_extension],
                               null=True, blank=True)
     user = models.OneToOneField(MainUser, on_delete=models.CASCADE, related_name='Profile')
->>>>>>> 5c1141802c4f7498db472a3ba0cc247cdb43c08c
 
     class Meta:
         verbose_name = ('Profile')

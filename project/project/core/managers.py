@@ -4,7 +4,10 @@ from django.db import models
 class PostManager(models.Manager):
 
     def created_by_user(self, user):
-        return user.posts.all().order_by('-created_date')
+        return super().filter(created_by=user)
+
+    def created_by_user_detailed(self, user, pk):
+        return super().filter(created_by=user, pk=pk)
 
     def subscribers_posts(self, user):
         subscriptions = user.user_subscriptions.all()

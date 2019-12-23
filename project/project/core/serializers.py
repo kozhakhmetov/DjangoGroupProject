@@ -3,19 +3,18 @@ from core.models import Post
 from rest_framework import serializers
 
 
-class PostSerializer(serializers.ModelSerializer):
-    created_by = UserSerializer(read_only=True)
+class BasePostSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Post
+        fields = ('id', 'category', 'created_at', 'header', 'created_by', 'description')
+        read_only_fields = ('id', 'created_at', 'created_by')
+
+
+class OwnPostSerializer(BasePostSerializer):
 
     class Meta:
         model = Post
-        fields = ('id', 'description', 'created_by', 'views', 'category', 'created_at')
-        read_only_fields = ('created_at', 'author',)
-
-        def create(self, validated_data):
-            post = Post(**validated_data)
-            post.save()
-            return post
+        fields = BasePostSerializer.Meta.fields + ('views', 'liked_by')
+        read_only_fields = BasePostSerializer.Meta.read_only_fields + ('views', 'liked_by')
 
 
-class PostSerializerFull:
-    pass
