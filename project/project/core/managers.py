@@ -26,7 +26,7 @@ class PostManager(models.Manager):
 
 class CommentManager(models.Manager):
     def post_comments(self, post):
-        return super(PostManager, self).get_queryset().order_by('-created_date').filter(post=post)
+        return super().get_queryset().order_by('-created_date').filter(post=post)
 
 
 class PostLikeManager(models.Manager):
@@ -41,7 +41,7 @@ class CommentLikeManager(models.Manager):
 
 class PostSavedManager(models.Manager):
     def get_user_saved(self, user):
-        return user.user_saved.all()
+        return super().get_queryset().filter(saved_by=user)
 
 
 class SubscriptionManager(models.Manager):

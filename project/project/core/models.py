@@ -29,9 +29,10 @@ class Post(models.Model):
 
 class Comment(models.Model):
     post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name='post_comments')
-    reply_to = models.IntegerField(null=True)
-    created_by = models.IntegerField(null=False)
+    reply_to = models.IntegerField(null=True, default=0)
+    created_by = models.ForeignKey(MainUser, on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
+    content = models.TextField(max_length=1000, default='')
     comments = CommentManager()
 
     class Meta:
@@ -69,16 +70,17 @@ class CommentLike(models.Model):
 
 
 class PostSaved(models.Model):
-    post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name='post_saved')
-    saved_by = models.ForeignKey(MainUser, on_delete=models.CASCADE, related_name='user_saved')
-    user_saved = PostSavedManager()
+    post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name='post')
+    saved_by = models.ForeignKey(MainUser, on_delete=models.CASCADE, related_name='saved_by')
+    post_saved = PostSavedManager()
 
     class Meta:
+        unique_together = (('saved_by', 'post'),)
         verbose_name = 'PostSaved'
         verbose_name_plural = 'PostSaved'
 
     def __str__(self):
-        return f'{self.created_by}: {self.post}'
+        return f'{self.post}: {self.saved_by}'
 
 
 class Subscription(models.Model):
