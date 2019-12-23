@@ -87,7 +87,7 @@ class Subscription(models.Model):
     userFrom = models.ForeignKey(MainUser, on_delete=models.CASCADE, related_name='user_subscriptions')
     userTo = models.ForeignKey(MainUser, on_delete=models.CASCADE)
     subscriptions = SubscriptionManager()
-
+    objects = subscriptions
     class Meta:
         verbose_name = 'Subscription'
         verbose_name_plural = 'Subscriptions'

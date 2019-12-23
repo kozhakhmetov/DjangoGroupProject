@@ -1,6 +1,7 @@
 from users.serializers import UserSerializer
 from core.models import Post, PostSaved, Comment, Subscription
 from utils.constants import CATEGORIES
+from users.serializers import UserSerializer
 from rest_framework import serializers
 
 
@@ -59,8 +60,9 @@ class BaseCommentSerializer(serializers.ModelSerializer):
 
 
 class SubscriptionSerializer(serializers.ModelSerializer):
+    userTo = UserSerializer
 
     class Meta:
         model = Subscription
-        fields = '__all__'
-        read_only_fieds = ('id', 'userFrom')
+        fields = ('id', 'userFrom', 'userTo')
+        read_only_fields = ('id', 'userFrom')

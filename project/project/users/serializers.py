@@ -19,7 +19,7 @@ class UserSerializer(serializers.ModelSerializer):
     def validate_password(self, password):
         if len(password) < 4:
             raise serializers.ValidationError('length should be at least 4')
-        if password.contains(' '):
+        if any(c == ' ' for c in password):
             raise serializers.ValidationError('password should not have any spaces')
         if not any(c.isdigit() for c in password):
             raise serializers.ValidationError('password should have at least one digit')
