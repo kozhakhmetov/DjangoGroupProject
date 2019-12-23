@@ -1,10 +1,10 @@
 from rest_framework.response import Response
 from rest_framework import viewsets
 from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnly
-from core.models import Post
-from core.serializers import BasePostSerializer, OwnPostSerializer
+from core.models import Post, Subscription
+from core.serializers import BasePostSerializer, OwnPostSerializer, SubscriptionSerializer
 from rest_framework.decorators import action
-
+from users.models import MainUser
 
 class PostListViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = Post.posts.all()
@@ -26,8 +26,18 @@ class OwnPostViewSet(viewsets.ModelViewSet):
         return Response(serializer.data)
 
 
+class SubscriptionViewSet(viewsets.ModelViewSet):
+    queryset = Subscription.subscriptions.all()
+    serializer_class = SubscriptionSerializer
+    permission_classes = (IsAuthenticated,)
 
+    def perform_create(self, serializer):
+        return serializer.save(userFrom=self.request.user)
 
-
-
+    @action(methods=['GET'], detail=True)
+    def subscription_of_user(self, request, pk):
+        user = MainUser.objects.get(pk=id)
+        subscriptions = Subscription.subscriptions.get_user_subscriptions(user)
+        serializer = SubscriptionSerializer(subscriptions, many=True)
+        return Response(serializer.data)
 
