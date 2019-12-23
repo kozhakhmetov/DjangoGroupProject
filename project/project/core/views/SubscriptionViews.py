@@ -4,6 +4,9 @@ from core.models import Subscription
 from core.serializers import SubscriptionSerializer
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.decorators import action
+import logging
+
+logger = logging.getLogger(__name__)
 
 class SubscriptionListViewSet(mixins.RetrieveModelMixin,
                                viewsets.GenericViewSet):
@@ -22,10 +25,13 @@ class SubscriptionViewSet(viewsets.ModelViewSet):
     permission_classes = (IsAuthenticated,)
 
     def perform_create(self, serializer):
+        logger.info(f"{self.request.user} to {self.request.data['userTo']}")
         subscriptions = Subscription.objects.all().filter(userFrom=self.request.user)
         for i in subscriptions:
             if self.request.data['userTo'] == i.userTo.id:
+                logger.error(f"{self.request.user} has such subscription !!!")
                 return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        logger.info(f"{self.request.user} created new subscription")
         return serializer.save(userFrom=self.request.user)
 
     def get_queryset(self):
