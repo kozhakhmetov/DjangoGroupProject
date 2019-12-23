@@ -111,4 +111,4 @@ class Notification(models.Model):
         verbose_name_plural = 'Notifications'
 
     def __str__(self):
-        return f'Dear {self.toUSer.username} you have new message : {self.msg}'
+        return f'Dear {self.toUser.username} you have new message : {self.msg}'

@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from users.models import MainUser, Profile
-
+from django.db import transaction
 
 class UserSerializer(serializers.ModelSerializer):
 
@@ -11,9 +11,19 @@ class UserSerializer(serializers.ModelSerializer):
         write_only_fields = ('password',)
 
     def create(self, validated_data):
-        user = MainUser.objects.create_user(**validated_data)
-        user.save()
-        return user
+        with transaction.atomic():
+            user = MainUser.objects.create_user(**validated_data)
+            user.save()
+            return user
+
+    def validate_password(self, password):
+        if len(password) < 4:
+            raise serializers.ValidationError('length should be at least 4')
+        if password.contains(' '):
+            raise serializers.ValidationError('password should not have any spaces')
+        if not any(c.isdigit() for c in password):
+            raise serializers.ValidationError('password should have at least one digit')
+
 
 
 class ProfileSerializer(serializers.ModelSerializer):

@@ -1,5 +1,7 @@
 from users.serializers import UserSerializer
 from core.models import Post, PostSaved, Comment
+from core.models import Post, Comment
+from utils.constants import CATEGORIES
 from rest_framework import serializers
 
 
@@ -22,6 +24,9 @@ class OwnPostSerializer(BasePostSerializer):
         fields = BasePostSerializer.Meta.fields + ('views', 'liked_by')
         read_only_fields = BasePostSerializer.Meta.read_only_fields + ('views', 'liked_by')
 
+    def validate_category(self, category):
+        if category not in CATEGORIES.keys():
+            raise serializers.ValidationError('Category is not correct')
 
 class BasePostSerializerSave(serializers.ModelSerializer):
     class Meta:
@@ -50,11 +55,5 @@ class BaseCommentSerializer(serializers.ModelSerializer):
         model = Comment
         fields = ('id', 'post', 'reply_to', 'created_by', 'created_at', 'content')
         read_only_fields = ('id', 'created_by', 'created_at')
-
-
-
-
-
-
 
 
