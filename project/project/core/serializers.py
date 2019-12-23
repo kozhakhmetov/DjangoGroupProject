@@ -26,6 +26,8 @@ class OwnPostSerializer(BasePostSerializer):
     def validate_category(self, category):
         if category not in CATEGORIES.keys():
             raise serializers.ValidationError('Category is not correct')
+        return category
+
 
 class BasePostSerializerSave(serializers.ModelSerializer):
     class Meta:

@@ -13,7 +13,7 @@ class Post(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     created_by = models.ForeignKey(MainUser, on_delete=models.CASCADE, related_name='posts')
     views = models.BigIntegerField(default=0)
-    category = models.IntegerField(default=0)
+    category = models.IntegerField(default=0, null=True)
     description = models.TextField(max_length=10000)
     header = models.CharField(max_length=1000, blank=True)
     posts = PostManager()
